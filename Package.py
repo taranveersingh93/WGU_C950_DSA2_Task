@@ -8,3 +8,4 @@ class Package:
         self.weight = weight
         self.deliveryStatus = deliveryStatus
         self.truckAffinity = truckAffinity
+

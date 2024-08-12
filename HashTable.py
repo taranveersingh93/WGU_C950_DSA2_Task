@@ -13,9 +13,15 @@ class HashTable:
         index = self.__hash(key)
         if (self.data_map[index] == None):
             self.data_map[index] = []
+        else:
+            for package in self.data_map[index]:
+                if package[0] == key:
+                    package[1] = value
+                    return
+
         self.data_map[index].append([key, value])
 
-    def get_item(self, key):
+    def get_package(self, key):
         index = self.__hash(key)
         if self.data_map[index] is not None:
             for package in self.data_map[index]:
