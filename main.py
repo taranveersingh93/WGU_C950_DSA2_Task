@@ -1,13 +1,19 @@
+from CSVReader import CSVReader
 from HashTable import HashTable
+from Helpers import Helpers
+from Truck import Truck
 
-ht = HashTable()
+packageTable = HashTable()
 
-# Adding some packages
-ht.set_package("apple", ["this", "that", 20])
-ht.set_package("banana", 20)
-ht.set_package("orange", 30)
+addressList = CSVReader.loadAddresses("./addresses.csv")
+distanceMatrix = CSVReader.loadDistances("./distances.csv")
+CSVReader.loadPackages("./packages.csv", packageTable)
 
-# Retrieving packages
-print(ht.get_item("apple"))   # Should print 10
-print(ht.get_item("banana"))  # Should print 20
-print(ht.get_item("grape"))   # Should print None
+truck1 = Truck(1)
+truck2 = Truck(2)
+truck3 = Truck(3)
+
+Helpers.loadTrucks(packageTable, truck1, truck2, truck3)
+print(truck1.capacity)
+print(truck2.capacity)
+print(truck3.capacity)

@@ -4,7 +4,10 @@ class Truck:
         self.capacity = capacity
         self.packages = []
         self.miles = 0
+        self.currentLocation = "HUB"
 
+    def getId(self):
+        return self.id
     def add_package(self, package):
         self.packages.append(package)
 

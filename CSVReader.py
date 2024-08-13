@@ -7,18 +7,18 @@ from Package import Package
 class CSVReader:
     @staticmethod
     def loadAddresses(fileName):
-        addresses = []
+        addressList = []
         with open(fileName) as addresses:
             addressData = csv.reader(addresses, delimiter=',')
             next(addressData) #skip header
             for row in addressData:
                 address = Address(row[0], row[1])
-                addresses.append(address)
-        return addresses
+                addressList.append(address)
+        return addressList
 
     @staticmethod
     def loadPackages(fileName, hashTable):
-        packages = []
+        packageList = []
         with open(fileName) as packages:
             packageData = csv.reader(packages, delimiter=',')
             next(packageData)
@@ -37,20 +37,21 @@ class CSVReader:
                     packageDevliveryStatus = "delayed"
 
                 package = Package(packageId, packageDestination, packageDeadline, packageCity, packageZip,packageWeight,packageDevliveryStatus, packageNote, packageTruckAffinity)
-                packages.append(package)
+                packageList.append(package)
                 # if packageTruckAffinity == "1" or packageTruckAffinity == "2" or packageTruckAffinity == "3":
-                #     packagesWithAffinity.append(package)
+                #     packageListWithAffinity.append(package)
                 # else:
-                #     packagesWithoutAffinity.append(package)
-        for package in packages:
+                #     packageListWithoutAffinity.append(package)
+        for package in packageList:
             hashTable.set_package(package.getId(), package)
-        # for package in packagesWithAffinity:
+        # for package in packageListWithAffinity:
         #     hashTable.addPackage(package)
-        # for package in packagesWithoutAffinity:
+        # for package in packageListWithoutAffinity:
         #     hashTable.addPackage(package)
 
     @staticmethod
     def loadDistances(fileName):
+        data = []
         with open(fileName) as distances:
             distanceData = csv.reader(distances, delimiter=',')
             data = list(distanceData)

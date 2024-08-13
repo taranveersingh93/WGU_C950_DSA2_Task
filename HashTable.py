@@ -11,7 +11,7 @@ class HashTable:
 
     def set_package(self, key, value):
         index = self.__hash(key)
-        
+
         if (self.data_map[index] == None):
             self.data_map[index] = []
         else:
@@ -29,3 +29,11 @@ class HashTable:
                 if package[0] == key:
                     return package[1]
         return None
+
+    def iterate_packages(self):
+        packages = []
+        for slot in self.data_map:
+            if slot is not None:
+                for package in slot:
+                    packages.append(package[1])
+        return packages
