@@ -10,3 +10,5 @@ class Package:
         self.note = note
         self.truckAffinity = truckAffinity
 
+    def getId(self):
+        return self.id

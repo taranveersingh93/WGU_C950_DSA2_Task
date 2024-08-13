@@ -1,5 +1,6 @@
 class Truck:
-    def __init__(self, capacity=16):
+    def __init__(self, truckId, capacity=16):
+        self.id = truckId
         self.capacity = capacity
         self.packages = []
         self.miles = 0
@@ -15,3 +16,4 @@ class Truck:
 
     def get_packages(self):
         return self.packages
+
