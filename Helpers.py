@@ -1,83 +1,91 @@
 
 class Helpers:
     @staticmethod
-    def loadPackageOnTruck(packageValue, truck, packageTable):
-        if packageValue.deliveryStatus == "at the hub":
-            truck.packages.append(packageValue)
-            truck.capacity = truck.capacity - 1
-            package = packageTable.get_package(packageValue.getId())
-            package.set_deliveryStatus("loaded")
-            packageTable.set_package(package.getId(), package)
+    def load_package_on_truck(package_value, truck, package_table):
+        if package_value.delivery_status == "at the hub":
+            truck.packages.append(package_value)
+            truck.set_total_capacity(truck.get_total_capacity() - 1)
+            package = package_table.get_package(package_value.getId())
+            package.set_delivery_status("loaded")
+            package_table.set_package(package.getId(), package)
 
     @staticmethod
-    def loadTrucksByAffinity(packageTable, truck1, truck2, truck3):
-        allPackages = packageTable.iterate_packages()
-        for package in allPackages:
-            if truck1.capacity > 0 and package.get_deliveryStatus() == "at the hub" and package.get_truckAffinity() == str(truck1.getId()):
-                Helpers.loadPackageOnTruck(package, truck1, packageTable)
-            elif truck2.capacity > 0 and package.get_deliveryStatus() == "at the hub" and package.get_truckAffinity() == str(truck2.getId()):
-                Helpers.loadPackageOnTruck(package, truck2, packageTable)
-            elif truck3.capacity > 0 and package.get_deliveryStatus() == "at the hub" and package.get_truckAffinity() == str(truck3.getId()):
-                Helpers.loadPackageOnTruck(package, truck3, packageTable)
+    def load_delayed_package_on_truck(package_value, truck, package_table):
+        truck.packages.append(package_value)
+        truck.set_reserved_capacity()(truck.get_reserved_capacity() - 1)
+        package = package_table.get_package(package_value.getId())
+        package.set_delivery_status("loaded")
+        package_table.set_package(package.getId(), package)
 
     @staticmethod
-    def loadTrucksWithEOD(packageTable, truck1, truck2, truck3):
-        allPackages = packageTable.iterate_packages()
-        for package in allPackages:
+    def load_trucks_by_affinity(package_table, truck1, truck2, truck3):
+        all_packages = package_table.iterate_packages()
+        for package in all_packages:
+            if truck1.get_available_capacity() > 0 and package.get_delivery_status() == "at the hub" and package.get_truck_affinity() == str(truck1.get_id()):
+                Helpers.load_package_on_truck(package, truck1, package_table)
+            elif truck2.get_available_capacity() > 0 and package.get_delivery_status() == "at the hub" and package.get_truck_affinity() == str(truck2.get_id()):
+                Helpers.load_package_on_truck(package, truck2, package_table)
+            elif truck3.get_available_capacity() > 0 and package.get_delivery_status() == "at the hub" and package.get_truck_affinity() == str(truck3.get_id()):
+                Helpers.load_package_on_truck(package, truck3, package_table)
+
+    @staticmethod
+    def load_trucks_by_EOD(package_table, truck1, truck2, truck3):
+        all_packages = package_table.iterate_packages()
+        for package in all_packages:
             if package.deadline == "EOD":
-                if truck3.capacity > 0 and package.get_deliveryStatus() == "at the hub":
-                    Helpers.loadPackageOnTruck(package, truck3, packageTable)
-                elif truck2.capacity > 0 and package.get_deliveryStatus() == "at the hub":
-                    Helpers.loadPackageOnTruck(package, truck2, packageTable)
-                elif truck1.capacity > 0 and package.get_deliveryStatus() == "at the hub":
-                    Helpers.loadPackageOnTruck(package, truck1, packageTable)
+                if truck3.get_available_capacity() > 0 and package.get_delivery_status() == "at the hub":
+                    Helpers.load_package_on_truck(package, truck3, package_table)
+                elif truck2.get_available_capacity() > 0 and package.get_delivery_status() == "at the hub":
+                    Helpers.load_package_on_truck(package, truck2, package_table)
+                elif truck1.get_available_capacity() > 0 and package.get_delivery_status() == "at the hub":
+                    Helpers.load_package_on_truck(package, truck1, package_table)
     @staticmethod
-    def filterPackagesByStatus(packages, status):
-        packagesWithStatus = [package for package in packages if package.deliveryStatus == status]
-        return packagesWithStatus
+    def filter_packages_by_status(packages, status):
+        packages_with_status = [package for package in packages if package.get_delivery_status() == status]
+        return packages_with_status
 
     @staticmethod
-    def getPackageDistance(package, currentLocation, addressList, distanceMatrix):
-        currentLocationIndex = 0
-        destinationIndex = 0
-        for i, address in enumerate(addressList):
-            if currentLocation in address.get_address():
-                currentLocationIndex = i
+    def get_package_distance(package, current_location, address_list, distance_matrix):
+        current_location_index = 0
+        destination_index = 0
+        for i, address in enumerate(address_list):
+            if current_location in address.get_address():
+                current_location_index = i
             if package.get_address() in address.get_address():
-                destinationIndex = i
-        distance = distanceMatrix[currentLocationIndex][destinationIndex]
+                destination_index = i
+        distance = distance_matrix[current_location_index][destination_index]
         if distance == "":
-            distance = distanceMatrix[destinationIndex][currentLocationIndex]
+            distance = distance_matrix[destination_index][current_location_index]
         return float(distance)
 
     @staticmethod
-    def getPackagesWithDistances(packages, currentLocation, addressList, distanceMatrix):
-        packagesWithDistance = [(package, Helpers.getPackageDistance(package, currentLocation, addressList, distanceMatrix)) for package in packages]
-        return packagesWithDistance
+    def get_packages_with_distance(packages, current_location, address_list, distance_matrix):
+        packages_with_distance = [(package, Helpers.get_package_distance(package, current_location, address_list, distance_matrix)) for package in packages]
+        return packages_with_distance
 
     @staticmethod
-    def sortPackagesByDistance(packagesWithDistance):
-        sortedPackages = sorted(packagesWithDistance, key=lambda package:package[1])
-        packageObjects = [package[0] for package in sortedPackages]
-        return packageObjects
+    def sort_packages_by_distance(packages_with_distance):
+        sorted_packages = sorted(packages_with_distance, key=lambda package:package[1])
+        package_objects = [package[0] for package in sorted_packages]
+        return package_objects
 
     @staticmethod
-    def loadTrucksByDistance(packageTable, truck1, truck2, truck3, addressList, distanceMatrix):
-        allPackages = packageTable.iterate_packages()
-        packagesToLoad = Helpers.filterPackagesByStatus(allPackages, "at the hub")
-        packagesWithDistance = Helpers.getPackagesWithDistances(packagesToLoad, "HUB", addressList, distanceMatrix)
-        sortedPackagesByDistance = Helpers.sortPackagesByDistance(packagesWithDistance)
+    def load_trucks_by_distance(package_table, truck1, truck2, truck3, address_list, distance_matrix):
+        all_packages = package_table.iterate_packages()
+        packages_to_load = Helpers.filter_packages_by_status(all_packages, "at the hub")
+        packages_with_distance = Helpers.get_packages_with_distance(packages_to_load, "HUB", address_list, distance_matrix)
+        sorted_package_values = Helpers.sort_packages_by_distance(packages_with_distance)
 
-        for packageValue in sortedPackagesByDistance:
-            if truck1.capacity > 0:
-                Helpers.loadPackageOnTruck(packageValue, truck1, packageTable)
-            elif truck2.capacity > 0:
-                Helpers.loadPackageOnTruck(packageValue, truck2, packageTable)
-            elif truck3.capacity > 0:
-                Helpers.loadPackageOnTruck(packageValue, truck3, packageTable)
+        for package_value in sorted_package_values:
+            if truck1.get_available_capacity() > 0:
+                Helpers.load_package_on_truck(package_value, truck1, package_table)
+            elif truck2.get_available_capacity() > 0:
+                Helpers.load_package_on_truck(package_value, truck2, package_table)
+            elif truck3.get_available_capacity() > 0:
+                Helpers.load_package_on_truck(package_value, truck3, package_table)
 
     @staticmethod
-    def loadTrucks(packageTable, truck1, truck2, truck3, addressList, distanceMatrix):
-        Helpers.loadTrucksByAffinity(packageTable, truck1, truck2, truck3)
-        Helpers.loadTrucksWithEOD(packageTable, truck1, truck2, truck3)
-        Helpers.loadTrucksByDistance(packageTable, truck1, truck2, truck3, addressList, distanceMatrix)
+    def load_trucks(package_table, truck1, truck2, truck3, address_list, distance_matrix):
+        Helpers.load_trucks_by_affinity(package_table, truck1, truck2, truck3)
+        Helpers.load_trucks_by_EOD(package_table, truck1, truck2, truck3)
+        Helpers.load_trucks_by_distance(package_table, truck1, truck2, truck3, address_list, distance_matrix)
