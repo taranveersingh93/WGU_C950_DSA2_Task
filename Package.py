@@ -12,3 +12,15 @@ class Package:
 
     def getId(self):
         return self.id
+
+    def get_address(self):
+        return self.address
+
+    def get_deliveryStatus(self):
+        return self.deliveryStatus
+
+    def set_deliveryStatus(self, status):
+        self.deliveryStatus = status
+
+    def get_truckAffinity(self):
+        return self.truckAffinity

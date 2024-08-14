@@ -13,7 +13,7 @@ truck1 = Truck(1)
 truck2 = Truck(2)
 truck3 = Truck(3)
 
-Helpers.loadTrucks(packageTable, truck1, truck2, truck3)
+Helpers.loadTrucks(packageTable, truck1, truck2, truck3, addressList, distanceMatrix)
 print(truck1.capacity)
 print(truck2.capacity)
 print(truck3.capacity)
