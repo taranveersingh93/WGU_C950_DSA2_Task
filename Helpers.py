@@ -5,23 +5,25 @@ class Helpers:
         if package_value.delivery_status == "at the hub":
             truck.packages.append(package_value)
             truck.set_total_capacity(truck.get_total_capacity() - 1)
-            package = package_table.get_package(package_value.getId())
+            package = package_table.get_package(package_value.get_id())
             package.set_delivery_status("loaded")
-            package_table.set_package(package.getId(), package)
+            package_table.set_package(package.get_id(), package)
 
     @staticmethod
     def load_delayed_package_on_truck(package_value, truck, package_table):
         truck.packages.append(package_value)
         truck.set_reserved_capacity()(truck.get_reserved_capacity() - 1)
-        package = package_table.get_package(package_value.getId())
+        package = package_table.get_package(package_value.get_id())
         package.set_delivery_status("loaded")
-        package_table.set_package(package.getId(), package)
+        package_table.set_package(package.get_id(), package)
 
     @staticmethod
     def load_trucks_by_affinity(package_table, truck1, truck2, truck3):
         all_packages = package_table.iterate_packages()
         for package in all_packages:
-            if truck1.get_available_capacity() > 0 and package.get_delivery_status() == "at the hub" and package.get_truck_affinity() == str(truck1.get_id()):
+            if package.get_delivery_status() == "delayed" and package.get_truck_affinity() == str(truck3.get_id()):
+                truck3.set_reserved_capacity(truck3.get_reserved_capacity() + 1)
+            elif truck1.get_available_capacity() > 0 and package.get_delivery_status() == "at the hub" and package.get_truck_affinity() == str(truck1.get_id()):
                 Helpers.load_package_on_truck(package, truck1, package_table)
             elif truck2.get_available_capacity() > 0 and package.get_delivery_status() == "at the hub" and package.get_truck_affinity() == str(truck2.get_id()):
                 Helpers.load_package_on_truck(package, truck2, package_table)

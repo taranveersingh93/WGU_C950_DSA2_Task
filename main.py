@@ -17,3 +17,5 @@ Helpers.load_trucks(package_table, truck1, truck2, truck3, addressList, distance
 print(truck1.get_available_capacity())
 print(truck2.get_available_capacity())
 print(truck3.get_available_capacity())
+print(truck3.get_total_capacity())
+print(truck3.get_reserved_capacity())
