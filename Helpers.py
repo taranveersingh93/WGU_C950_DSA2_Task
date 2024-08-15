@@ -56,6 +56,17 @@ class Helpers:
         return packages_with_status
 
     @staticmethod
+    def filter_packages_by_status_with_time(packages, status, current_time, trucks):
+        packages_with_status = []
+        for package in packages:
+            truck_id = package.get_truck_id()
+            truck = trucks[int(truck_id)-1]
+            truck_departure_time = truck.get_departure_time()
+            if package.check_status_against_time(current_time, truck_departure_time) == status.lower():
+                packages_with_status.append(package)
+        return packages_with_status
+
+    @staticmethod
     def load_delayed_packages(package_table, truck):
         all_packages = package_table.iterate_packages()
         delayed_packages = Helpers.filter_packages_by_status(all_packages, "delayed")

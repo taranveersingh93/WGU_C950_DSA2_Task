@@ -43,7 +43,7 @@ class Main:
         print("3. View status of packages by truck.")
         print("4. View packages by status.")
 
-        user_option = input("Input the number corresponding to your option and press enter: ")
+        user_option = input("Input the number corresponding to your option(1-4) and press enter: ")
         try:
             if user_option == "1":
                 all_packages = package_table.iterate_packages()
@@ -93,7 +93,24 @@ class Main:
                 except ValueError:
                     print("Invalid input")
             elif user_option == "4":
-                print("ss")
+                status_options = ["Delayed", "Loaded", "On its way", "Delivered"]
+                for i, status in enumerate(status_options):
+                    print(f"{i+1}: {status}")
+                status_option = input("Input the number corresponding to your option(1-4) and press enter: ")
+                try:
+                    status_choice = status_options[int(status_option) - 1]
+                    all_packages = package_table.iterate_packages()
+                    filtered_packages = Helpers.filter_packages_by_status_with_time(all_packages, status_choice, check_time, trucks)
+                    print("-" * 10)
+
+                    for package in filtered_packages:
+                        truck_id = package.get_truck_id()
+                        truck = trucks[truck_id - 1]
+                        departure_time = truck.get_departure_time()
+                        print(package.get_status(check_time, departure_time))
+                        print("-" * 10)
+                except ValueError:
+                    print("Invalid input")
             else:
                 print("Invalid input")
         except ValueError:
