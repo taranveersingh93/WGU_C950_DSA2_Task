@@ -6,8 +6,9 @@ class Truck:
         self.undelivered_packages = []
         self.delivered_packages = []
         self.miles = 0
-        self.current_location = "HUB"
+        self.current_address = "HUB"
         self.departure_time = None
+        self.last_recorded_time = None
 
     def get_id(self):
         return self.id
@@ -20,8 +21,14 @@ class Truck:
             self.undelivered_packages.remove(package_id)
             self.delivered_packages.append(package_id)
 
+    def get_current_address(self):
+        return self.current_address
+
     def get_miles(self):
         return self.miles
+
+    def set_miles(self, miles):
+        self.miles = miles
 
     def get_total_capacity(self):
         return self.total_capacity
@@ -43,3 +50,13 @@ class Truck:
 
     def set_departure_time(self, departure_time):
         self.departure_time = departure_time
+
+    def get_last_recorded_time(self):
+        return self.last_recorded_time
+
+    def set_last_recorded_time(self, last_recorded_time):
+        self.last_recorded_time = last_recorded_time
+
+    def set_current_address(self, address):
+        self.current_address = address
+

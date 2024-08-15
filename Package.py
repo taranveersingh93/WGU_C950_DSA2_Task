@@ -2,6 +2,7 @@ class Package:
     def __init__(self, id, address, deadline, city, zip_code, weight, delivery_status, note, truck_affinity):
         self.id = id
         self.truck_id = None
+        self.delivery_time = None
         self.address = address
         self.deadline = deadline
         self.city = city
@@ -22,6 +23,9 @@ class Package:
 
     def set_delivery_status(self, status):
         self.delivery_status = status
+
+    def set_delivery_time(self, time):
+        self.delivery_time = time
 
     def get_truck_affinity(self):
         return self.truck_affinity
