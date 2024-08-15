@@ -48,6 +48,9 @@ class Truck:
     def get_package_ids(self):
         return self.undelivered_packages
 
+    def get_delivered_package_ids(self):
+        return self.delivered_packages
+
     def set_departure_time(self, departure_time):
         self.departure_time = departure_time
 

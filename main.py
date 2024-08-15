@@ -14,7 +14,7 @@ CSVReader.load_packages("./packages.csv", package_table)
 truck1 = Truck(1)
 truck2 = Truck(2)
 truck3 = Truck(3)
-
+trucks = [truck1, truck2, truck3]
 Helpers.load_trucks(package_table, truck1, truck2, truck3, address_list, distance_matrix)
 truck1.set_departure_time(datetime.timedelta(hours=8))
 truck2.set_departure_time(datetime.timedelta(hours=9, minutes=5))
@@ -40,21 +40,22 @@ class Main:
         check_time = datetime.timedelta(hours=int(input_h), minutes=int(input_m))
         print("1. View status of all packages.")
         print("2. View status of a single package.")
+        print("3. View status of packages by truck.")
+        print("4. View packages by status.")
+
         user_option = input("Input the number corresponding to your option and press enter: ")
         try:
-            if (user_option == "1"):
+            if user_option == "1":
                 all_packages = package_table.iterate_packages()
+                print("-" * 10)
+
                 for package in all_packages:
-                    departure_time = None
-                    if (package.get_truck_id() == 1):
-                        departure_time = truck1.get_departure_time()
-                    elif (package.get_truck_id() == 2):
-                        departure_time = truck2.get_departure_time()
-                    else:
-                        departure_time = truck3.get_departure_time()
+                    truck_id = package.get_truck_id()
+                    truck = trucks[truck_id-1]
+                    departure_time = truck.get_departure_time()
                     print(package.get_status(check_time, departure_time))
                     print("-"*10)
-            elif (user_option == "2"):
+            elif user_option == "2":
                 print("=" * 20)
                 secondInput = input("Input the package ID (1-40) and press enter: ")
                 try:
@@ -74,6 +75,25 @@ class Main:
                         print("-" * 10)
                 except ValueError:
                     print("Invalid input")
+            elif user_option == "3":
+                try:
+                    truck_number = input("Input the truck ID (1-3) and press enter: ")
+                    truck = trucks[int(truck_number) - 1]
+                    undelivered_packages = truck.get_package_ids()
+                    delivered_packages = truck.get_delivered_package_ids()
+                    all_packages = [*undelivered_packages, *delivered_packages]
+                    departure_time = truck.get_departure_time()
+                    print("-" * 10)
+
+                    for package_id in all_packages:
+                        package = package_table.get_package(package_id)
+                        print(package.get_status(check_time, departure_time))
+                        print("-" * 10)
+
+                except ValueError:
+                    print("Invalid input")
+            elif user_option == "4":
+                print("ss")
             else:
                 print("Invalid input")
         except ValueError:
