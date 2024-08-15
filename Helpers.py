@@ -67,6 +67,7 @@ class Helpers:
         distance = distance_matrix[current_address_index][destination_index]
         if distance == "":
             distance = distance_matrix[destination_index][current_address_index]
+        distance = distance.replace('ï»¿', '')
         return float(distance)
 
     @staticmethod
@@ -107,7 +108,7 @@ class Helpers:
         min_package_id = None
         for package_id in undelivered_package_ids:
             package = package_table.get_package(package_id)
-            distance = Helpers.get_package_distance(package, current_address, address_list, distance_matrix)
+            distance = Helpers.get_package_distance(package.get_address(), current_address, address_list, distance_matrix)
             if min_distance > distance:
                 min_distance = distance
                 min_package_id = package_id
@@ -119,7 +120,7 @@ class Helpers:
             current_address = truck.get_current_address()
             undelivered_package_ids = truck.get_package_ids()
             [nearest_package, distance] = Helpers.get_nearest_package_id(current_address, undelivered_package_ids, package_table, address_list, distance_matrix)
-            package = package_table.get(nearest_package)
+            package = package_table.get_package(nearest_package)
             truck.set_last_recorded_time(truck.get_last_recorded_time() + datetime.timedelta(hours=distance/18))
             truck.set_miles(truck.get_miles() + distance)
             truck.set_current_address(package.get_address())

@@ -18,6 +18,9 @@ class Package:
     def get_address(self):
         return self.address
 
+    def set_address(self, address):
+        self.address = address
+
     def get_delivery_status(self):
         return self.delivery_status
 

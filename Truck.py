@@ -52,7 +52,10 @@ class Truck:
         self.departure_time = departure_time
 
     def get_last_recorded_time(self):
-        return self.last_recorded_time
+        if self.last_recorded_time is not None:
+            return self.last_recorded_time
+        else:
+            return self.departure_time
 
     def set_last_recorded_time(self, last_recorded_time):
         self.last_recorded_time = last_recorded_time
