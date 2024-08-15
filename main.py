@@ -30,16 +30,68 @@ address_change_time = datetime.timedelta(hours=10, minutes=20)
 truck3.set_departure_time(max(address_change_time, driver_availability_time))
 Helpers.deliver_packages(package_table, truck3, address_list, distance_matrix)
 
+class Main:
+    print("WGUPS Delivery Tracking")
+    print(f"The total mileage: {truck1.get_miles() + truck2.get_miles() + truck3.get_miles()}")
+    print("="*20)
+    user_time = input("Enter the time of day in format 'HH:MM' at which you want to check the status: ")
+    (input_h, input_m) = user_time.split(":")
+    try:
+        check_time = datetime.timedelta(hours=int(input_h), minutes=int(input_m))
+        print("1. View status of all packages.")
+        print("2. View status of a single package.")
+        user_option = input("Input the number corresponding to your option and press enter: ")
+        try:
+            if (user_option == "1"):
+                all_packages = package_table.iterate_packages()
+                for package in all_packages:
+                    departure_time = None
+                    if (package.get_truck_id() == 1):
+                        departure_time = truck1.get_departure_time()
+                    elif (package.get_truck_id() == 2):
+                        departure_time = truck2.get_departure_time()
+                    else:
+                        departure_time = truck3.get_departure_time()
+                    print(package.get_status(check_time, departure_time))
+                    print("-"*10)
+            elif (user_option == "2"):
+                print("=" * 20)
+                secondInput = input("Input the package ID (1-40) and press enter: ")
+                try:
+                    if int(secondInput) > 40 or int(secondInput) < 1:
+                        print("Invalid input")
+                    else:
+                        print("-" * 10)
+                        package = package_table.get_package(secondInput)
+                        departure_time = None
+                        if (package.get_truck_id() == 1):
+                            departure_time = truck1.get_departure_time()
+                        elif (package.get_truck_id() == 2):
+                            departure_time = truck2.get_departure_time()
+                        else:
+                            departure_time = truck3.get_departure_time()
+                        print(package.get_status(check_time, departure_time))
+                        print("-" * 10)
+                except ValueError:
+                    print("Invalid input")
+            else:
+                print("Invalid input")
+        except ValueError:
+            print("Invalid input")
+    except ValueError:
+        print("Invalid input")
 
-print(truck1.get_last_recorded_time())
-print(truck1.get_miles())
-print(truck1.get_package_ids())
 
-print(truck2.get_last_recorded_time())
-print(truck2.get_miles())
-print(truck2.get_package_ids())
-all_packages = package_table.iterate_packages()
-print(truck3.get_last_recorded_time())
-print(truck3.get_departure_time())
-print(truck3.get_miles())
-print(truck3.get_package_ids())
+
+# print(truck1.get_last_recorded_time())
+# print(truck1.get_miles())
+# print(truck1.get_package_ids())
+#
+# print(truck2.get_last_recorded_time())
+# print(truck2.get_miles())
+# print(truck2.get_package_ids())
+# all_packages = package_table.iterate_packages()
+# print(truck3.get_last_recorded_time())
+# print(truck3.get_departure_time())
+# print(truck3.get_miles())
+# print(truck3.get_package_ids())

@@ -1,3 +1,6 @@
+import datetime
+
+
 class Package:
     def __init__(self, id, address, deadline, city, zip_code, weight, delivery_status, note, truck_affinity):
         self.id = id
@@ -38,3 +41,20 @@ class Package:
 
     def set_truck_id(self, truck_id):
         self.truck_id = truck_id
+
+    def get_status(self, query_time, departure_time):
+        if self.id == "6" or self.id=="25" or self.id == "28" or self.id == "32":
+            if query_time < datetime.timedelta(hours=9, minutes=5):
+                return f"The package {self.id} is delayed.\n Truck #: {self.truck_id} \n Destination: {self.address} \n Deadline: {self.deadline}"
+
+        if self.id == "9" and query_time < datetime.timedelta(hours=10, minutes=20):
+            return f"The package {self.id} is loaded.\n Truck #: {self.truck_id} \n Destination: 300 State St \n Deadline: {self.deadline}"
+        if self.delivery_status == 'delayed':
+            return f"The package {self.id} is delayed.\n Destination: {self.address} \n Deadline: {self.deadline}"
+        if query_time < self.delivery_time:
+            if query_time < departure_time:
+                return f"The package {self.id} is loaded. \n Truck #: {self.truck_id} \n Departure Time: {departure_time} \n Destination: {self.address} \n Deadline: {self.deadline}"
+            if query_time > departure_time:
+                return f"The package {self.id} is on its way. \n Truck #: {self.truck_id} \n Departure Time: {departure_time} \n Destination: {self.address} \n Deadline: {self.deadline}"
+        else:
+            return f"The package {self.id} was delivered. \n Truck #: {self.truck_id} \n Departure Time: {departure_time} \n Destination: {self.address} \n Deadline: {self.deadline} \n Delivered at: {self.delivery_time}"
