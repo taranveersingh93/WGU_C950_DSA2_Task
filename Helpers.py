@@ -4,9 +4,11 @@ class Helpers:
     def load_package_on_truck(package_value, truck, package_table):
         if package_value.delivery_status == "at the hub":
             package_id = package_value.get_id()
-            truck.add_package(package_id)
+            truck_id = truck.get_id()
+            truck.load_package(package_id)
             truck.set_total_capacity(truck.get_total_capacity() - 1)
             package = package_table.get_package(package_id)
+            package.set_truck_id(truck_id)
             package.set_delivery_status("loaded")
             package_table.set_package(package_id, package)
 
