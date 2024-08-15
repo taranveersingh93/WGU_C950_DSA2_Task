@@ -56,6 +56,13 @@ class Helpers:
         return packages_with_status
 
     @staticmethod
+    def load_delayed_packages(package_table, truck):
+        all_packages = package_table.iterate_packages()
+        delayed_packages = Helpers.filter_packages_by_status(all_packages, "delayed")
+        for package in delayed_packages:
+            Helpers.load_delayed_package_on_truck(package, truck, package_table)
+
+    @staticmethod
     def get_package_distance(destination_address, current_address, address_list, distance_matrix):
         current_address_index = 0
         destination_index = 0
