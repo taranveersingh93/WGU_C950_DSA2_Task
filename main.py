@@ -1,3 +1,5 @@
+import datetime
+
 from CSVReader import CSVReader
 from HashTable import HashTable
 from Helpers import Helpers
@@ -14,6 +16,9 @@ truck2 = Truck(2)
 truck3 = Truck(3)
 
 Helpers.load_trucks(package_table, truck1, truck2, truck3, addressList, distanceMatrix)
+truck1.set_departure_time(datetime.timedelta(hours=8))
+truck2.set_departure_time(datetime.timedelta(hours=9, minutes=5))
+
 print(truck1.get_available_capacity())
 print(truck2.get_available_capacity())
 print(truck3.get_available_capacity())

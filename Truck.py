@@ -6,12 +6,13 @@ class Truck:
         self.packages = []
         self.miles = 0
         self.current_location = "HUB"
+        self.departure_time = None
 
     def get_id(self):
         return self.id
 
-    def add_package(self, package):
-        self.packages.append(package)
+    def add_package(self, package_id):
+        self.packages.append(package_id)
 
     def get_miles(self):
         return self.miles
@@ -31,6 +32,8 @@ class Truck:
     def get_reserved_capacity(self):
         return self.reserved_capacity
 
-    def get_packages(self):
+    def get_package_ids(self):
         return self.packages
 
+    def set_departure_time(self, departure_time):
+        self.departure_time = departure_time
