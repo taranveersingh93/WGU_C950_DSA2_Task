@@ -75,14 +75,14 @@ class Main:
             if user_option == "1":
                 # get all packages
                 all_packages = package_table.iterate_packages()
-                print("-" * 10)
+                print("-"*20)
                 # loop through the packages and print each package's status
                 for package in all_packages:
                     truck_id = package.get_truck_id()
                     truck = trucks[truck_id-1]
                     departure_time = truck.get_departure_time()
                     print(package.get_status(check_time, departure_time))
-                    print("-"*10)
+                print("-"*20)
             elif user_option == "2":
                 print("=" * 20)
                 # ask for a package id

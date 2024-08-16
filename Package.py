@@ -78,12 +78,12 @@ class Package:
         status = self.check_status_against_time(query_time, departure_time)
         # generate appropriate sentences corresponding to each status
         if status == "delayed":
-            return f"The package {self.id} is delayed.\n Truck #: {self.truck_id} \n Destination: {self.address} \n Deadline: {self.deadline}"
+            return f"Package {self.id}: delayed.\t Truck: {self.truck_id} \t Destination: {self.address} \t Deadline: {self.deadline}"
         elif self.id == "9" and query_time < datetime.timedelta(hours=10, minutes=20):
-            return f"The package {self.id} is loaded.\n Truck #: {self.truck_id} \n Destination: 300 State St \n Deadline: {self.deadline}"
+            return f"Package {self.id}: loaded.\t Truck: {self.truck_id} \t Destination: 300 State St \t Deadline: {self.deadline}"
         elif status == "loaded":
-            return f"The package {self.id} is loaded. \n Truck #: {self.truck_id} \n Departure Time: {departure_time} \n Destination: {self.address} \n Deadline: {self.deadline}"
+            return f"Package {self.id}: loaded. \t Truck: {self.truck_id} \t Departure Time: {departure_time} \t Destination: {self.address} \t Deadline: {self.deadline}"
         elif status == "on its way":
-            return f"The package {self.id} is on its way. \n Truck #: {self.truck_id} \n Departure Time: {departure_time} \n Destination: {self.address} \n Deadline: {self.deadline}"
+            return f"Package {self.id}: on its way. \t Truck: {self.truck_id} \t Departure Time: {departure_time} \t Destination: {self.address} \t Deadline: {self.deadline}"
         else:
-            return f"The package {self.id} was delivered. \n Truck #: {self.truck_id} \n Departure Time: {departure_time} \n Destination: {self.address} \n Deadline: {self.deadline} \n Delivered at: {self.delivery_time}"
+            return f"Package {self.id}: delivered. \t Truck: {self.truck_id} \t Departure Time: {departure_time} \t Destination: {self.address} \t Deadline: {self.deadline} \t Delivery: {self.delivery_time}"
