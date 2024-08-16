@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a5812eca-ded7-446c-9772-c95367afc37e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/CSVReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/CSVReader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HashTable.py" beforeDir="false" afterPath="$PROJECT_DIR$/HashTable.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +71,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1723468791990</updated>
-      <workItem from="1723468804583" duration="91957000" />
+      <workItem from="1723468804583" duration="93027000" />
     </task>
     <servers />
   </component>
