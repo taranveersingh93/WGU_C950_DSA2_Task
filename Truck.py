@@ -9,6 +9,7 @@ class Truck:
         self.current_address = "HUB"
         self.departure_time = None
         self.last_recorded_time = None
+        self.mileage_timestamps = []
 
     def get_id(self):
         return self.id
@@ -24,11 +25,11 @@ class Truck:
     def get_current_address(self):
         return self.current_address
 
-    def get_miles(self):
-        return self.miles
+    # def get_miles(self):
+    #     return self.miles
 
-    def set_miles(self, miles):
-        self.miles = miles
+    # def set_miles(self, miles):
+    #     self.miles = miles
 
     def get_total_capacity(self):
         return self.total_capacity
@@ -63,9 +64,28 @@ class Truck:
         else:
             return self.departure_time
 
-    def set_last_recorded_time(self, last_recorded_time):
-        self.last_recorded_time = last_recorded_time
+    # def set_last_recorded_time(self, last_recorded_time):
+    #     self.last_recorded_time = last_recorded_time
 
     def set_current_address(self, address):
         self.current_address = address
 
+    def add_mileage_timestamp(self, timestamp, miles):
+        self.mileage_timestamps.append([timestamp, miles])
+        self.miles += miles
+        self.last_recorded_time = timestamp
+
+    def get_final_mileage(self):
+        total_miles = 0
+        for timestamp, miles in self.mileage_timestamps:
+            total_miles += miles
+        return total_miles
+
+    def get_mileage_at(self, query_time):
+        total_miles = 0
+        for timestamp, miles in self.mileage_timestamps:
+            if timestamp >= query_time:
+                return total_miles
+            else:
+                total_miles += miles
+        return total_miles

@@ -1,3 +1,6 @@
+# WGUPS by Taranveer Singh
+# Student ID: 011834733
+
 import datetime
 
 from CSVReader import CSVReader
@@ -32,18 +35,20 @@ Helpers.deliver_packages(package_table, truck3, address_list, distance_matrix)
 
 class Main:
     print("WGUPS Delivery Tracking")
-    print(f"The total mileage: {truck1.get_miles() + truck2.get_miles() + truck3.get_miles()}")
+    print(f"The total mileage: {truck1.get_final_mileage() + truck2.get_final_mileage() + truck3.get_final_mileage()}")
     print("="*20)
     user_time = input("Enter the time of day in format 'HH:MM' at which you want to check the status: ")
     (input_h, input_m) = user_time.split(":")
     try:
         check_time = datetime.timedelta(hours=int(input_h), minutes=int(input_m))
+        print("="*10)
         print("1. View status of all packages.")
         print("2. View status of a single package.")
         print("3. View status of packages by truck.")
         print("4. View packages by status.")
+        print("5. View total mileage at the entered time")
 
-        user_option = input("Input the number corresponding to your option(1-4) and press enter: ")
+        user_option = input("Input the number corresponding to your option(1-5) and press enter: ")
         try:
             if user_option == "1":
                 all_packages = package_table.iterate_packages()
@@ -111,6 +116,19 @@ class Main:
                         print("-" * 10)
                 except ValueError:
                     print("Invalid input")
+            elif user_option == "5":
+                print("-" * 10)
+                print("Mileage at EOD:")
+                print(f"Total Mileage: {truck1.get_final_mileage() + truck2.get_final_mileage() + truck3.get_final_mileage()}")
+                print(f"Truck 1: {truck1.get_final_mileage()}")
+                print(f"Truck 2: {truck2.get_final_mileage()}")
+                print(f"Truck 3: {truck3.get_final_mileage()}")
+                print("-"*10)
+                print(f"Mileage as of {check_time}:")
+                print(f"Total Mileage: {truck1.get_mileage_at(check_time) + truck2.get_mileage_at(check_time) + truck3.get_mileage_at(check_time)}")
+                print(f"Truck 1: {truck1.get_mileage_at(check_time)}")
+                print(f"Truck 2: {truck2.get_mileage_at(check_time)}")
+                print(f"Truck 3: {truck3.get_mileage_at(check_time)}")
             else:
                 print("Invalid input")
         except ValueError:
