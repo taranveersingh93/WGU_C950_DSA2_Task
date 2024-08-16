@@ -74,7 +74,7 @@ class Main:
         try:
             if user_option == "1":
                 # get all packages
-                all_packages = package_table.iterate_packages()
+                all_packages = package_table.get_all_packages()
                 print("-"*20)
                 # loop through the packages and print each package's status
                 for package in all_packages:
@@ -134,7 +134,7 @@ class Main:
                 status_option = input("Input the number corresponding to your option(1-4) and press enter: ")
                 try:
                     status_choice = status_options[int(status_option) - 1]
-                    all_packages = package_table.iterate_packages()
+                    all_packages = package_table.get_all_packages()
                     # get packages filtered by status IN HINDSIGHT using a query time (check_time)
                     filtered_packages = Helpers.filter_packages_by_status_with_time(all_packages, status_choice, check_time, trucks)
                     print("-" * 10)

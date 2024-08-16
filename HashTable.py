@@ -46,7 +46,7 @@ class HashTable:
         # return None if no match found.
         return None
 
-    def iterate_packages(self):
+    def get_all_packages(self):
         # initialize an empty list.
         packages = []
         # loop through the data map. Data map consists slots and slots consist of [key, package] arrays

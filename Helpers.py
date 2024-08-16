@@ -45,7 +45,7 @@ class Helpers:
     @staticmethod
     def load_trucks_by_affinity(package_table, truck1, truck2, truck3):
         # get a list of all packages stored in the package table
-        all_packages = package_table.iterate_packages()
+        all_packages = package_table.get_all_packages()
         for package in all_packages:
             # if the package is delayed and its supposed to go to truck 2, add truck 2's reserved_capacity but don't load the package
             if package.get_delivery_status() == "delayed" and package.get_truck_affinity() == str(truck2.get_id()):
@@ -61,7 +61,7 @@ class Helpers:
     @staticmethod
     def load_trucks_by_EOD(package_table, truck1, truck2, truck3):
         # get all packages in the package table
-        all_packages = package_table.iterate_packages()
+        all_packages = package_table.get_all_packages()
         for package in all_packages:
             # if the deadline is "EOD" and other conditions apply, add the package to the truck
             if package.deadline == "EOD":
@@ -98,7 +98,7 @@ class Helpers:
     @staticmethod
     def load_delayed_packages(package_table, truck):
         # get all the packages in the hashtable
-        all_packages = package_table.iterate_packages()
+        all_packages = package_table.get_all_packages()
         # get all the packages marked "delayed". Again, this uses the "packages_by_status" method which is used by the program within the first few seconds of execution.
         # (contd.) that's when the truck is loading and delivering the packages.
         delayed_packages = Helpers.filter_packages_by_status(all_packages, "delayed")
@@ -145,7 +145,7 @@ class Helpers:
     @staticmethod
     def load_trucks_by_distance(package_table, truck1, truck2, truck3, address_list, distance_matrix):
         # get all packages from the package table
-        all_packages = package_table.iterate_packages()
+        all_packages = package_table.get_all_packages()
         # filter them all based on "at the hub" status
         packages_to_load = Helpers.filter_packages_by_status(all_packages, "at the hub")
         # use the filtered list to then return a list which has distances as well. [[package, distance], [package2, distance2],...]
