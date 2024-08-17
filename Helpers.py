@@ -9,7 +9,7 @@ class Helpers:
         if package_value.delivery_status == "at the hub":
             package_id = package_value.get_id()
             truck_id = truck.get_id()
-            # add the package id to the truck's undeliverd_packages array.
+            # add the package id to the truck's undelivered_packages array.
             truck.load_package(package_id)
             # reduce the truck's total capacity
             truck.set_total_capacity(truck.get_total_capacity() - 1)
@@ -76,7 +76,7 @@ class Helpers:
     @staticmethod
     def filter_packages_by_status(packages, status):
         # filter packages by the delivery status. This method is used while the packages are being delivered programatically.
-        # the status' used in this method are different from "filter_packages_by_status_with_time.
+        # the status' used in this method are different from that in "filter_packages_by_status_with_time".
         # this method is used when the program is executing, not when the user is getting packages by status.
         packages_with_status = [package for package in packages if package.get_delivery_status() == status]
         return packages_with_status
